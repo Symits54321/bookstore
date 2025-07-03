@@ -4,7 +4,8 @@ const port = 8080;
 // initiliasing express
 const express = require("express");
 const app = express();
-// for resing JSON req res
+
+// for fetching JSON req res
 app.use(express.json());
 
 // main route

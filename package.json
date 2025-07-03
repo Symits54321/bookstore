@@ -1,7 +1,1 @@
-{
-  "dependencies": {
-    "bcrypt": "^6.0.0",
-    "express": "^5.1.0",
-    "uuid": "^11.1.0"
-  }
-}
+{"name":"bookstore","version":"1.0.0","description":"A bookstore CRUD operation ","main":"index.js","dependencies":{"bcrypt":"^6.0.0","express":"^5.1.0","jsonwebtoken":"^9.0.2","uuid":"^11.1.0"},"scripts":{"test":"echo \"Error: no test specified\" && exit 1"},"author":"Sumit Singh","license":"ISC"}
