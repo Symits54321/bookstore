@@ -14,5 +14,6 @@ router.post("/books", authMiddleware.verifyAuthenticated , bookController.addBoo
 router.get("/books", authMiddleware.verifyAuthenticated , bookController.getAllBooks);
 router.get("/books/:id", authMiddleware.verifyAuthenticated , bookController.getBookById);
 router.put("/books/:id", authMiddleware.verifyAuthenticated , bookController.updateBookById);
+router.delete("/books/:id", authMiddleware.verifyAuthenticated , bookController.deleteBookById);
 
 module.exports = router;

@@ -193,3 +193,53 @@ module.exports.updateBookById = async (req, res) => {
   }
   
 }
+
+module.exports.deleteBookById = async (req, res) => {
+
+  try {
+    
+    // fetching id from params
+    const id = req.params.id
+    
+    // validating id
+    if(!id || id == ""){
+        return res.status(500).json({
+          message:"Book id is required in params"
+        }); 
+    }
+
+    // fetching book_data from local db
+    const bookDataStringified = await fs.readFile(bookDbPath,'utf-8');
+    const bookData = JSON.parse(bookDataStringified);
+
+    // getting book by id
+    const requiredBookToDelete = bookData.find(book => book.id === id);
+    
+    // if book not present
+    if (!requiredBookToDelete) {
+         return res.status(500).json({ message: 'No book present by this id' });
+    }
+
+    // getting index of the book
+    const bookIndex = bookData.findIndex(book => book.id === id);
+    
+    // deleting book by Id 
+    bookData.splice(bookIndex, 1); 
+    
+    // updating the updated bookdata in local db
+    await fs.writeFile(bookDbPath, JSON.stringify(bookData, null, 2)); 
+
+    // finally returning success response
+    return res.status(200).json({
+        message:"Successfully deleted book by id",
+        data: bookData
+    });
+
+  }catch (error) {
+      console.log("Error deleting books : " + error);
+      return res.status(500).json({
+         message:"Error deleting books"
+      });
+  }
+  
+}
