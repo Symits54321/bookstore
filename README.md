@@ -156,35 +156,85 @@ The token expires after 4 hours.
 
 ## 📝 Usage Examples
 
-### Using cURL
+### Using Postman
 
 1. **Register a new user:**
-   ```bash
-   curl -X POST http://localhost:8080/register \
-     -H "Content-Type: application/json" \
-     -d '{"email":"test@example.com","password":"password123"}'
-   ```
+   - Method: `POST`
+   - URL: `http://localhost:8080/register`
+   - Headers: `Content-Type: application/json`
+   - Body (raw JSON):
+     ```json
+     {
+       "email": "test@example.com",
+       "password": "password123"
+     }
+     ```
 
 2. **Login:**
-   ```bash
-   curl -X POST http://localhost:8080/login \
-     -H "Content-Type: application/json" \
-     -d '{"email":"test@example.com","password":"password123"}'
-   ```
+   - Method: `POST`
+   - URL: `http://localhost:8080/login`
+   - Headers: `Content-Type: application/json`
+   - Body (raw JSON):
+     ```json
+     {
+       "email": "test@example.com",
+       "password": "password123"
+     }
+     ```
+   - Copy the JWT token from the response
 
-3. **Add a book (replace TOKEN with actual JWT token):**
-   ```bash
-   curl -X POST http://localhost:8080/books \
-     -H "Content-Type: application/json" \
-     -H "Authorization: Bearer TOKEN" \
-     -d '{"title":"The Great Gatsby","author":"F. Scott Fitzgerald","genre":"Fiction","publishedYear":"1925","userId":"user-id"}'
-   ```
+3. **Add a book:**
+   - Method: `POST`
+   - URL: `http://localhost:8080/books`
+   - Headers: 
+     - `Content-Type: application/json`
+     - `Authorization: Bearer <your_jwt_token>`
+   - Body (raw JSON):
+     ```json
+     {
+       "title": "The Great Gatsby",
+       "author": "F. Scott Fitzgerald",
+       "genre": "Fiction",
+       "publishedYear": "1925",
+       "userId": "user-id"
+     }
+     ```
 
 4. **Get all books:**
-   ```bash
-   curl -X GET http://localhost:8080/books \
-     -H "Authorization: Bearer TOKEN"
-   ```
+   - Method: `GET`
+   - URL: `http://localhost:8080/books`
+   - Headers: `Authorization: Bearer <your_jwt_token>`
+
+5. **Get book by ID:**
+   - Method: `GET`
+   - URL: `http://localhost:8080/books/{book-id}`
+   - Headers: `Authorization: Bearer <your_jwt_token>`
+
+6. **Update a book:**
+   - Method: `PUT`
+   - URL: `http://localhost:8080/books/{book-id}`
+   - Headers: 
+     - `Content-Type: application/json`
+     - `Authorization: Bearer <your_jwt_token>`
+   - Body (raw JSON):
+     ```json
+     {
+       "title": "Updated Title",
+       "author": "Updated Author",
+       "genre": "Updated Genre",
+       "publishedYear": "2024"
+     }
+     ```
+
+7. **Delete a book:**
+   - Method: `DELETE`
+   - URL: `http://localhost:8080/books/{book-id}`
+   - Headers: `Authorization: Bearer <your_jwt_token>`
+
+### 💡 Postman Tips
+- Save your JWT token in a Postman environment variable for easier testing
+- Create a Postman collection to organize all your API requests
+- Use Postman's pre-request scripts to automatically add authentication headers
 
 ## 🗄️ Data Storage
 
