@@ -13,5 +13,6 @@ router.post("/login", authController.login);
 router.post("/books", authMiddleware.verifyAuthenticated , bookController.addBooks);
 router.get("/books", authMiddleware.verifyAuthenticated , bookController.getAllBooks);
 router.get("/books/:id", authMiddleware.verifyAuthenticated , bookController.getBookById);
+router.put("/books/:id", authMiddleware.verifyAuthenticated , bookController.updateBookById);
 
 module.exports = router;

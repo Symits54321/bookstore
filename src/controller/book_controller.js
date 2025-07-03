@@ -38,7 +38,7 @@ module.exports.addBooks = async (req, res) => {
     bookData.push(newBookData);
 
     // adding the updated bookdata json in local db
-    await fs.writeFile(bookDbPath,JSON.stringify(bookData));
+    await fs.writeFile(bookDbPath,JSON.stringify(bookData, null, 2));
     
     // finally returning success response
     return res.status(200).json({
@@ -108,6 +108,87 @@ module.exports.getBookById = async (req, res) => {
       console.log("Error in fetching all books : " + error);
       return res.status(500).json({
          message:"Error in fetching all books"
+      });
+  }
+  
+}
+
+module.exports.updateBookById = async (req, res) => {
+
+  try {
+    
+    // fetching id from params
+    const id = req.params.id
+    
+    // validating id
+    if(!id || id == ""){
+        return res.status(500).json({
+          message:"Book id is required in params"
+        }); 
+    }
+
+    const {title, author, genre, publishedYear, userId} = req.body;
+
+    if(!title && !author && !genre && !publishedYear){
+        return res.status(400).json({
+             message: "Atleast one field is required to update book" 
+        }); 
+    }
+    
+    function isValidString(val) {
+      return typeof val === 'string' && val.trim() !== '';
+    }
+    
+    // Verifying StringType of each value of req.body
+    for (const key in req.body) {
+        if (Object.hasOwnProperty.call(req.body, key)) {
+            const value = req.body[key];
+             if (!isValidString(value)){
+                return res.status(400).json({ 
+                    message: `Invalid ${key} / is not a valid String`,
+                    data: req.body 
+                });
+             }
+        }
+    }
+
+    // fetching book_data from local db
+    const bookDataStringified = await fs.readFile(bookDbPath,'utf-8');
+    const bookData = JSON.parse(bookDataStringified);
+
+    // getting book by id
+    const requiredBookToUpdate = bookData.find(book => book.id === id);
+    
+    // if book not present
+    if (!requiredBookToUpdate) {
+         return res.status(500).json({ message: 'No book present by this id' });
+    }
+
+    // getting index of the book
+     const bookIndex = bookData.findIndex(book => book.id === id);
+    
+    // updating on that index 
+     bookData[bookIndex] = {
+        ...bookData[bookIndex],
+        title,
+        author,
+        genre,
+        publishedYear
+     };
+    
+    // updating the updated book in local db
+    await fs.writeFile(bookDbPath, JSON.stringify(bookData, null, 2)); 
+
+    // finally returning success response
+    return res.status(200).json({
+        message:"Successfully Updated book by id",
+        data:bookData[bookIndex]
+    });
+
+  }catch (error) {
+      console.log("Error updating books : " + error);
+      return res.status(500).json({
+         message:"Error updating books"
       });
   }
   

@@ -36,7 +36,7 @@ module.exports.verifyAuthenticated = async (req, res, next) => {
             }  
             
             return res.status(500).json({
-              message: 'Not Authenticated, Please login ',          
+              message: 'Not Authenticated, Please login / Check bearer token',          
             }); 
             
         }else{

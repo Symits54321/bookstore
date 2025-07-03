@@ -43,7 +43,7 @@ module.exports.register = async (req, res) => {
     userData.push(newUserData);
 
     // adding the updated userdata json in local db
-    await fs.writeFile(userDbPath,JSON.stringify(userData));
+    await fs.writeFile(userDbPath,JSON.stringify(userData, null, 2));
     
     // finally returning success response
     return res.status(200).json({
