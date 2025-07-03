@@ -11,5 +11,6 @@ router.post("/login", authController.login);
 
 // defining book endpoints
 router.post("/books", authMiddleware.verifyAuthenticated , bookController.addBooks);
+router.get("/books", authMiddleware.verifyAuthenticated , bookController.getAllBooks);
 
 module.exports = router;

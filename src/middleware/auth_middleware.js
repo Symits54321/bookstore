@@ -29,7 +29,9 @@ module.exports.verifyAuthenticated = async (req, res, next) => {
 
             // if valid user 
             if(isUserPresent) {
-               req.body.userId = isUserPresent.id;
+               if(req.body){
+                 req.body.userId = isUserPresent.id;
+               }
                return next();
             }  
             

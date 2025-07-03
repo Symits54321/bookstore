@@ -53,3 +53,25 @@ module.exports.addBooks = async (req, res) => {
       });
   }
 }
+
+module.exports.getAllBooks = async (req, res) => {
+
+  try {
+    // fetching book_data from local db
+    const bookDataStringified = await fs.readFile(bookDbPath,'utf-8');
+    const bookData = JSON.parse(bookDataStringified);
+
+    // finally returning success response
+    return res.status(200).json({
+        message:"successfully fetched all books",
+        data:bookData
+    });
+
+  }catch (error) {
+      console.log("Error in fetching all books : " + error);
+      return res.status(500).json({
+         message:"Error in fetching all books"
+      });
+  }
+  
+}
